@@ -4,15 +4,21 @@ const newQuoteBtn = document.getElementById("newQuote");
 
 async function getQuote() {
     try {
+        // Fetch from API
         const res = await fetch("https://api.quotable.io/random");
+        if (!res.ok) throw new Error("API Error");
         const data = await res.json();
         quoteEl.textContent = `"${data.content}" — ${data.author}`;
-    } catch {
+    } catch (err) {
+        // Fallback to local quotes.json
         fetch("data/quotes.json")
             .then(res => res.json())
             .then(localQuotes => {
                 const random = localQuotes[Math.floor(Math.random() * localQuotes.length)];
                 quoteEl.textContent = `"${random.text}" — ${random.author}`;
+            })
+            .catch(() => {
+                quoteEl.textContent = "Unable to load quotes 😔";
             });
     }
 }
