@@ -1,107 +1,80 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #0f0f0f;
-    color: #fff;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    text-align: center;
+    background: #fff;
+    color: #111;
 }
 
 header {
-    background: linear-gradient(135deg, #ff4081, #ff80ab);
+    background: linear-gradient(90deg, #ff4081, #ff80ab);
     color: black;
+    text-align: center;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.logo {
-    width: 120px;
+header img.logo {
+    width: 100px;
     border-radius: 50%;
     margin-bottom: 10px;
 }
 
-/* Banner image */
-.banner {
+header img.banner {
     width: 90%;
     max-width: 600px;
-    border-radius: 12px;
-    margin: 15px auto;
-}
-
-/* Illustration image */
-.illustration {
-    width: 80%;
-    max-width: 500px;
-    margin: 10px auto;
-    display: block;
+    border-radius: 15px;
+    margin-top: 10px;
 }
 
 section {
-    background: #1a1a1a;
-    margin: 20px auto;
     padding: 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 0 15px #ff4081;
+    max-width: 700px;
+    margin: auto;
 }
 
 h2 {
-    color: #ff80ab;
+    color: #ff4081;
     margin-bottom: 10px;
 }
 
-button {
-    background-color: #ff4081;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
+input, textarea, button {
+    padding: 10px;
+    margin: 5px 0;
     border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background: #ff4081;
+    color: white;
     cursor: pointer;
-    transition: 0.3s;
+    border: none;
 }
 
 button:hover {
-    background-color: #ff80ab;
+    background: #ff80ab;
 }
 
-input, textarea {
-    width: 80%;
+.card {
+    background: #f8f8f8;
     padding: 10px;
-    margin: 8px 0;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    text-align: left;
-}
-
-ul li {
-    background: #333;
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
+.delete-btn {
+    background: #ff1e56;
+    float: right;
+    margin-left: 10px;
 }
 
 footer {
-    margin-top: 20px;
-    background: #ff4081;
+    text-align: center;
     padding: 10px;
+    background: #ff4081;
     color: black;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    input, textarea, button {
-        width: 95%;
-    }
+    margin-top: 20px;
 }
