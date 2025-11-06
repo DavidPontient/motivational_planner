@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motivational Planner - David Pontient</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        <h1>Hey — this is David Pontient! Ready to feel motivated and plan ahead?</h1>
+    </header>
+
+    <section class="quote-section">
+        <h2>Daily Motivation ✨</h2>
+        <p id="quote">Loading quote...</p>
+        <button id="newQuote">New Quote</button>
+    </section>
+
+    <section class="planner">
+        <h2>Planner 🗓️</h2>
+        <input type="text" id="subjectInput" placeholder="Add a subject...">
+        <button id="addSubject">Add</button>
+        <ul id="subjectList"></ul>
+    </section>
+
+    <section class="sessions">
+        <h2>Sessions ⏰</h2>
+        <input type="text" id="sessionInput" placeholder="Enter session reminder...">
+        <button id="addSession">Add</button>
+        <ul id="sessionList"></ul>
+    </section>
+
+    <section class="notes">
+        <h2>Notes 📝</h2>
+        <textarea id="noteInput" placeholder="Write your thoughts here..."></textarea>
+        <button id="saveNote">Save</button>
+        <p id="noteStatus"></p>
+    </section>
+
+    <footer>
+        <p>Created by Me lol | Stay focused & inspired!</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
