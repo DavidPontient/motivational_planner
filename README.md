@@ -1,4 +1,4 @@
-{"id":"90123","variant":"standard","subject":""}
+
 # Project Name
 
 A brief description of what your app does. app website: https://motivational-planner.onrender.com/
