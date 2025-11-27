@@ -1,76 +1,121 @@
-{"id":"90124","variant":"standard","subject":""}
-/* app.js - Motivational Planner Frontend */
+const quoteEl = document.getElementById("quote");
+const newQuoteBtn = document.getElementById("newQuote");
 
-// Base URL for all API requests
-const API_BASE = 'https://motivational-planner.onrender.com';
-
-// Fetch and display quotes
-function loadQuotes() {
-  fetch(`${API_BASE}/quotes`)
-    .then(response => response.json())
-    .then(data => {
-      const quotesContainer = document.getElementById('quotes');
-      quotesContainer.innerHTML = '';
-      data.forEach(quote => {
-        const div = document.createElement('div');
-        div.className = 'quote';
-        div.textContent = `"${quote.text}" — ${quote.author}`;
-        quotesContainer.appendChild(div);
-      });
-    })
-    .catch(err => console.error('Error fetching quotes:', err));
+async function fetchQuote() {
+  try {
+    const res = await fetch("https://api.quotable.io/random");
+    const data = await res.json();
+    quoteEl.textContent = `"${data.content}" — ${data.author}`;
+  } catch {
+    quoteEl.textContent = "Unable to load quotes 😔";
+  }
 }
+newQuoteBtn.addEventListener("click", fetchQuote);
+fetchQuote();
 
-// Fetch and display planner tasks
-function loadPlanner() {
-  fetch(`${API_BASE}/planner`)
-    .then(response => response.json())
-    .then(data => {
-      const plannerContainer = document.getElementById('planner');
-      plannerContainer.innerHTML = '';
-      data.forEach(task => {
-        const div = document.createElement('div');
-        div.className = 'task';
-        div.textContent = `${task.time} - ${task.task}`;
-        plannerContainer.appendChild(div);
-      });
-    })
-    .catch(err => console.error('Error fetching planner tasks:', err));
+// Planner
+const subjectInput = document.getElementById("subjectInput");
+const addSubjectBtn = document.getElementById("addSubject");
+const subjectList = document.getElementById("subjectList");
+
+async function loadSubjects() {
+  const res = await fetch("/api/subjects");
+  const subjects = await res.json();
+  subjectList.innerHTML = "";
+  subjects.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s.name;
+    const btn = document.createElement("button");
+    btn.textContent = "Delete";
+    btn.onclick = async () => {
+      await fetch(`/api/subjects/${s.id}`, { method: "DELETE" });
+      loadSubjects();
+    };
+    li.appendChild(btn);
+    subjectList.appendChild(li);
+  });
 }
+addSubjectBtn.onclick = async () => {
+  if (subjectInput.value.trim()) {
+    await fetch("/api/subjects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: subjectInput.value })
+    });
+    subjectInput.value = "";
+    loadSubjects();
+  }
+};
+loadSubjects();
 
-// Add a new planner task
-function addTask(event) {
-  event.preventDefault();
-  const taskInput = document.getElementById('taskInput');
-  const timeInput = document.getElementById('timeInput');
+// Sessions
+const sessionInput = document.getElementById("sessionInput");
+const sessionDate = document.getElementById("sessionDate");
+const addSessionBtn = document.getElementById("addSession");
+const sessionList = document.getElementById("sessionList");
 
-  const newTask = {
-    task: taskInput.value,
-    time: timeInput.value
-  };
-
-  fetch(`${API_BASE}/planner`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newTask)
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Task added:', data);
-      taskInput.value = '';
-      timeInput.value = '';
-      loadPlanner();
-    })
-    .catch(err => console.error('Error adding task:', err));
+async function loadSessions() {
+  const res = await fetch("/api/sessions");
+  const sessions = await res.json();
+  sessionList.innerHTML = "";
+  sessions.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = `${s.description} — ${s.date}`;
+    const btn = document.createElement("button");
+    btn.textContent = "Delete";
+    btn.onclick = async () => {
+      await fetch(`/api/sessions/${s.id}`, { method: "DELETE" });
+      loadSessions();
+    };
+    li.appendChild(btn);
+    sessionList.appendChild(li);
+  });
 }
+addSessionBtn.onclick = async () => {
+  if (sessionInput.value.trim() && sessionDate.value) {
+    await fetch("/api/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ description: sessionInput.value, date: sessionDate.value })
+    });
+    sessionInput.value = "";
+    sessionDate.value = "";
+    loadSessions();
+  }
+};
+loadSessions();
 
-// Initialize app
-document.addEventListener('DOMContentLoaded', () => {
-  loadQuotes();
-  loadPlanner();
+// Notes
+const noteInput = document.getElementById("noteInput");
+const saveNoteBtn = document.getElementById("saveNote");
+const notesList = document.getElementById("notesList");
 
-  const addForm = document.getElementById('addTaskForm');
-  addForm.addEventListener('submit', addTask);
-});
+async function loadNotes() {
+  const res = await fetch("/api/notes");
+  const notes = await res.json();
+  notesList.innerHTML = "";
+  notes.forEach(n => {
+    const li = document.createElement("li");
+    li.textContent = n.content;
+    const btn = document.createElement("button");
+    btn.textContent = "Delete";
+    btn.onclick = async () => {
+      await fetch(`/api/notes/${n.id}`, { method: "DELETE" });
+      loadNotes();
+    };
+    li.appendChild(btn);
+    notesList.appendChild(li);
+  });
+}
+saveNoteBtn.onclick = async () => {
+  if (noteInput.value.trim()) {
+    await fetch("/api/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: noteInput.value })
+    });
+    noteInput.value = "";
+    loadNotes();
+  }
+};
+loadNotes();
