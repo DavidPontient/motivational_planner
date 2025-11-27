@@ -1,0 +1,84 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.content {
+  font-family: 'Quattrocento', serif;
+  font-size: 16px;
+  text-align: center;
+  background-color: #8EC4F6;
+  width: 95%;
+  margin: auto;
+}
+
+
+
+input {
+  height: 50px;
+  width: 100%;
+  padding: 6px;
+  margin-top: 10px;
+  font-size: 32px;
+  border: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  background-color: white;
+}
+
+li {
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: #1173D0;
+  color: white;
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+li:before {
+  content: "\200B";
+  position: absolute;
+}
+
+li::after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+li button {
+  float: right;
+  border: none;
+  height: 40px;
+  cursor: pointer;
+  background-color: midnightblue;
+  color: white;
+  font-size: 1em;
+}
+
+li button:hover {
+  background-color: green;
+  
+}
+
+.img-fluid,
+.quotesCard,
+.timerCard {
+  width: 95%;
+  margin: auto;
+}
+
+
+
+.todos {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 40px;
+  
+}
