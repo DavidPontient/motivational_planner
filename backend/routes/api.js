@@ -7,63 +7,117 @@ const router = express.Router();
 router.get("/subjects", async (req, res) => {
   const db = await openDB();
   const subjects = await db.all("SELECT * FROM subjects");
-  res.json(subjects);
+// backend/routes/api.js
+import express from "express";
+import db from "../db.js";
+
+const router = express.Router();
+
+/** USERS **/
+router.post("/users", (req, res) => {
+  const { username, password } = req.body;
+  db.run(
+    "INSERT INTO users (username, password) VALUES (?, ?)",
+    [username, password],
+    function (err) {
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({ id: this.lastID, username });
+    }
+  );
 });
 
-router.post("/subjects", async (req, res) => {
-  const { name } = req.body;
-  const db = await openDB();
-  await db.run("INSERT INTO subjects (name) VALUES (?)", [name]);
-  res.json({ message: "Subject added" });
+router.get("/users", (req, res) => {
+  db.all("SELECT id, username FROM users", [], (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
-router.delete("/subjects/:id", async (req, res) => {
-  const { id } = req.params;
-  const db = await openDB();
-  await db.run("DELETE FROM subjects WHERE id = ?", [id]);
-  res.json({ message: "Subject deleted" });
+/** SUBJECTS / STUDY PLANS **/
+router.post("/subjects", (req, res) => {
+  const { user_id, name } = req.body;
+  db.run(
+    "INSERT INTO subjects (user_id, name) VALUES (?, ?)",
+    [user_id, name],
+    function (err) {
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({ id: this.lastID, user_id, name });
+    }
+  );
 });
 
-// Sessions CRUD
-router.get("/sessions", async (req, res) => {
-  const db = await openDB();
-  const sessions = await db.all("SELECT * FROM sessions");
-  res.json(sessions);
+router.get("/subjects/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
+  db.all("SELECT * FROM subjects WHERE user_id = ?", [user_id], (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
-router.post("/sessions", async (req, res) => {
-  const { description, date } = req.body;
-  const db = await openDB();
-  await db.run("INSERT INTO sessions (description, date) VALUES (?, ?)", [description, date]);
-  res.json({ message: "Session added" });
+router.delete("/subjects/:id", (req, res) => {
+  const id = req.params.id;
+  db.run("DELETE FROM subjects WHERE id = ?", [id], function (err) {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json({ deletedID: id });
+  });
 });
 
-router.delete("/sessions/:id", async (req, res) => {
-  const { id } = req.params;
-  const db = await openDB();
-  await db.run("DELETE FROM sessions WHERE id = ?", [id]);
-  res.json({ message: "Session deleted" });
+/** SESSIONS **/
+router.post("/sessions", (req, res) => {
+  const { user_id, subject_id, session_time, description } = req.body;
+  db.run(
+    "INSERT INTO sessions (user_id, subject_id, session_time, description) VALUES (?, ?, ?, ?)",
+    [user_id, subject_id, session_time, description],
+    function (err) {
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({ id: this.lastID, user_id, subject_id, session_time, description });
+    }
+  );
 });
 
-// Notes CRUD
-router.get("/notes", async (req, res) => {
-  const db = await openDB();
-  const notes = await db.all("SELECT * FROM notes");
-  res.json(notes);
+router.get("/sessions/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
+  db.all("SELECT * FROM sessions WHERE user_id = ?", [user_id], (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
-router.post("/notes", async (req, res) => {
-  const { content } = req.body;
-  const db = await openDB();
-  await db.run("INSERT INTO notes (content) VALUES (?)", [content]);
-  res.json({ message: "Note saved" });
+router.delete("/sessions/:id", (req, res) => {
+  const id = req.params.id;
+  db.run("DELETE FROM sessions WHERE id = ?", [id], function (err) {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json({ deletedID: id });
+  });
 });
 
-router.delete("/notes/:id", async (req, res) => {
-  const { id } = req.params;
-  const db = await openDB();
-  await db.run("DELETE FROM notes WHERE id = ?", [id]);
-  res.json({ message: "Note deleted" });
+/** NOTES **/
+router.post("/notes", (req, res) => {
+  const { user_id, content } = req.body;
+  db.run(
+    "INSERT INTO notes (user_id, content) VALUES (?, ?)",
+    [user_id, content],
+    function (err) {
+      if (err) return res.status(400).json({ error: err.message });
+      res.json({ id: this.lastID, user_id, content });
+    }
+  );
+});
+
+router.get("/notes/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
+  db.all("SELECT * FROM notes WHERE user_id = ?", [user_id], (err, rows) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json(rows);
+  });
+});
+
+router.delete("/notes/:id", (req, res) => {
+  const id = req.params.id;
+  db.run("DELETE FROM notes WHERE id = ?", [id], function (err) {
+    if (err) return res.status(400).json({ error: err.message });
+    res.json({ deletedID: id });
+  });
 });
 
 export default router;
