@@ -1,12 +1,3 @@
-import express from "express";
-import { openDB } from "../db.js";
-
-const router = express.Router();
-
-// Subjects CRUD
-router.get("/subjects", async (req, res) => {
-  const db = await openDB();
-  const subjects = await db.all("SELECT * FROM subjects");
 // backend/routes/api.js
 import express from "express";
 import db from "../db.js";
