@@ -1,15 +1,15 @@
-// Base config
-const API_BASE = 'http://localhost:3000/api';
+// Frontend app.js - talks to backend at API_BASE or falls back to localStorage
+const API_BASE = (window.API_BASE ? window.API_BASE : 'http://localhost:3000/api');
 
-// Helper: safe fetch with timeout
-async function safeFetch(url, opts = {}, timeout = 6000){
+// safeFetch with timeout
+async function safeFetch(url, opts = {}, timeout = 7000){
   const controller = new AbortController();
   const id = setTimeout(()=>controller.abort(), timeout);
-  try {
+  try{
     const res = await fetch(url, {...opts, signal: controller.signal});
     clearTimeout(id);
     return res;
-  } catch (e) {
+  }catch(e){
     clearTimeout(id);
     throw e;
   }
@@ -23,18 +23,16 @@ const copyQuoteBtn = document.getElementById('copyQuote');
 async function loadQuote(){
   quoteEl.textContent = 'Loading quote...';
   try {
-    // try backend proxy
     const r = await safeFetch(`${API_BASE}/quotes`);
-    if (!r.ok) throw new Error('bad quote API');
+    if(!r.ok) throw new Error('bad');
     const data = await r.json();
-    quoteEl.textContent = `"${data.text}"${data.author? ' — ' + data.author : ''}`;
-  } catch (e) {
-    // fallback to local file
+    quoteEl.textContent = `"${data.text}"${data.author ? ' — ' + data.author : ''}`;
+  } catch (err) {
     try {
       const local = await fetch('data/quotes.json').then(r=>r.json());
       const pick = local[Math.floor(Math.random()*local.length)];
       quoteEl.textContent = `"${pick.text}" — ${pick.author}`;
-    } catch (err) {
+    } catch (e) {
       quoteEl.textContent = 'Unable to load quotes 😔';
     }
   }
@@ -42,7 +40,12 @@ async function loadQuote(){
 newQuoteBtn.addEventListener('click', loadQuote);
 copyQuoteBtn?.addEventListener('click', ()=> navigator.clipboard?.writeText(quoteEl.textContent || ''));
 
-/* ---------------- SUBJECTS (Planner) ---------------- */
+/* ---------------- HELPERS ---------------- */
+function localLoad(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
+function localSave(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+
+/* ---------------- SUBJECTS ---------------- */
 const subjectInput = document.getElementById('subjectInput');
 const subjectHours = document.getElementById('subjectHours');
 const addSubjectBtn = document.getElementById('addSubject');
@@ -50,25 +53,9 @@ const subjectList = document.getElementById('subjectList');
 
 async function fetchSubjectsFromServer(){
   const r = await safeFetch(`${API_BASE}/subjects`);
-  if(!r.ok) throw new Error('no server');
+  if(!r.ok) throw new Error('server error');
   return r.json();
 }
-function localLoad(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
-function localSave(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-
-async function renderSubjects(){
-  subjectList.innerHTML = 'Loading...';
-  try {
-    const arr = await fetchSubjectsFromServer();
-    subjectList.innerHTML = '';
-    arr.forEach(s => subjectList.appendChild(createSubjectElement(s)));
-  } catch {
-    const arr = localLoad('subjects');
-    subjectList.innerHTML = '';
-    arr.forEach((s,i) => subjectList.appendChild(createSubjectElement({id:i, title:s.title, hours:s.hours, _local:true})));
-  }
-}
-
 function createSubjectElement(s){
   const el = document.createElement('div'); el.className='item';
   const meta = document.createElement('div'); meta.innerHTML = `<strong>${escapeHtml(s.title)}</strong><div class="meta">${s.hours || ''} hrs/day</div>`;
@@ -80,25 +67,32 @@ function createSubjectElement(s){
   return el;
 }
 
+async function renderSubjects(){
+  subjectList.innerHTML = 'Loading...';
+  try {
+    const arr = await fetchSubjectsFromServer();
+    subjectList.innerHTML = '';
+    arr.forEach(s => subjectList.appendChild(createSubjectElement(s)));
+  } catch {
+    const arr = localLoad('subjects');
+    subjectList.innerHTML = '';
+    arr.forEach((s,i) => subjectList.appendChild(createSubjectElement({...s, id:i, _local:true})));
+  }
+}
+
 async function addSubject(){
   const title = subjectInput.value.trim(); const hours = parseFloat(subjectHours.value) || '';
-  if(!title) return alert('Enter a subject');
+  if(!title) return alert('Enter a subject name');
   try {
     const res = await safeFetch(`${API_BASE}/subjects`, {
       method:'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({title, hours})
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({title,hours})
     });
     if(!res.ok) throw new Error('server');
-    subjectInput.value=''; subjectHours.value='';
-    await renderSubjects();
+    subjectInput.value=''; subjectHours.value=''; renderSubjects();
   } catch {
-    // local fallback
-    const arr = localLoad('subjects');
-    arr.push({title, hours});
-    localSave('subjects', arr);
-    subjectInput.value=''; subjectHours.value='';
-    renderSubjects();
+    const arr = localLoad('subjects'); arr.push({title,hours}); localSave('subjects',arr); subjectInput.value=''; subjectHours.value=''; renderSubjects();
   }
 }
 addSubjectBtn.addEventListener('click', addSubject);
@@ -106,16 +100,13 @@ addSubjectBtn.addEventListener('click', addSubject);
 async function deleteSubject(s){
   if(!confirm('Delete this subject?')) return;
   if(s._local){
-    // delete local by index id
-    const arr = localLoad('subjects'); arr.splice(s.id,1); localSave('subjects', arr); renderSubjects(); return;
+    const arr = localLoad('subjects'); arr.splice(s.id,1); localSave('subjects',arr); renderSubjects(); return;
   }
   try {
-    const res = await safeFetch(`${API_BASE}/subjects/${s.id}`, {method:'DELETE'});
-    if(!res.ok) throw new Error('server delete failed');
+    const r = await safeFetch(`${API_BASE}/subjects/${s._id || s.id}`, {method:'DELETE'});
+    if(!r.ok) throw new Error('delete fail');
     renderSubjects();
-  } catch {
-    alert('Unable to delete on server. If offline, remove from local list instead.');
-  }
+  } catch { alert('Unable to delete on server.'); }
 }
 
 /* ---------------- SESSIONS ---------------- */
@@ -128,27 +119,12 @@ const sessionList = document.getElementById('sessionList');
 
 async function fetchSessionsFromServer(){
   const r = await safeFetch(`${API_BASE}/sessions`);
-  if(!r.ok) throw new Error('no server');
+  if(!r.ok) throw new Error('server');
   return r.json();
 }
-
-async function renderSessions(){
-  sessionList.innerHTML = 'Loading...';
-  try {
-    const arr = await fetchSessionsFromServer();
-    sessionList.innerHTML = '';
-    arr.forEach(s => sessionList.appendChild(createSessionElement(s)));
-  } catch {
-    const arr = localLoad('sessions');
-    sessionList.innerHTML = '';
-    arr.forEach((s,i) => sessionList.appendChild(createSessionElement({...s, id:i, _local:true})));
-  }
-}
-
 function createSessionElement(s){
   const el = document.createElement('div'); el.className='item';
-  const meta = document.createElement('div');
-  meta.innerHTML = `<strong>${escapeHtml(s.desc||s.description||'No title')}</strong><div class="meta">📅 ${s.date} | ⏰ ${s.start} - ${s.end}</div>`;
+  const meta = document.createElement('div'); meta.innerHTML = `<strong>${escapeHtml(s.desc || s.description || 'No title')}</strong><div class="meta">📅 ${s.date} | ⏰ ${s.start} - ${s.end}</div>`;
   const actions = document.createElement('div'); actions.className='actions';
   const del = document.createElement('button'); del.className='delete-btn'; del.textContent='Delete';
   del.addEventListener('click', ()=> deleteSession(s));
@@ -156,38 +132,41 @@ function createSessionElement(s){
   el.appendChild(meta); el.appendChild(actions);
   return el;
 }
+async function renderSessions(){
+  sessionList.innerHTML = 'Loading...';
+  try {
+    const arr = await fetchSessionsFromServer();
+    sessionList.innerHTML = '';
+    arr.forEach(s => sessionList.appendChild(createSessionElement(s)));
+  } catch {
+    const arr = localLoad('sessions'); sessionList.innerHTML=''; arr.forEach((s,i)=> sessionList.appendChild(createSessionElement({...s,id:i,_local:true})));
+  }
+}
 
 async function addSession(){
   const date = sessionDate.value, start = sessionStart.value, end = sessionEnd.value, desc = sessionInput.value.trim();
-  if(!date || !start || !end || !desc) return alert('Fill date, start, end and description');
-  const payload = {date, start, end, desc};
+  if(!date || !start || !end || !desc) return alert('Complete date/time & description');
+  const payload = {date,start,end,desc};
   try {
-    const res = await safeFetch(`${API_BASE}/sessions`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
-    if(!res.ok) throw new Error('server err');
-    sessionDate.value=''; sessionStart.value=''; sessionEnd.value=''; sessionInput.value='';
-    renderSessions();
+    const res = await safeFetch(`${API_BASE}/sessions`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok) throw new Error('server');
+    sessionDate.value=''; sessionStart.value=''; sessionEnd.value=''; sessionInput.value=''; renderSessions();
   } catch {
-    // local fallback
-    const arr = localLoad('sessions'); arr.push(payload); localSave('sessions', arr); renderSessions();
+    const arr = localLoad('sessions'); arr.push(payload); localSave('sessions',arr); renderSessions();
   }
 }
 addSessionBtn.addEventListener('click', addSession);
 
 async function deleteSession(s){
   if(!confirm('Delete this session?')) return;
-  if(s._local) {
-    const arr = localLoad('sessions'); arr.splice(s.id,1); localSave('sessions', arr); renderSessions(); return;
-  }
+  if(s._local){ const arr = localLoad('sessions'); arr.splice(s.id,1); localSave('sessions',arr); renderSessions(); return; }
   try {
-    const res = await safeFetch(`${API_BASE}/sessions/${s.id}`, {method:'DELETE'});
-    if(!res.ok) throw new Error('delete fail');
-    renderSessions();
-  } catch {
-    alert('Unable to delete on server; if offline remove locally.');
-  }
+    const r = await safeFetch(`${API_BASE}/sessions/${s._id || s.id}`, {method:'DELETE'});
+    if(!r.ok) throw new Error('delete fail'); renderSessions();
+  } catch { alert('Unable to delete on server.'); }
 }
 
-/* ---------------- NOTES ---------------- */
+/* ---------------- NOTES (local-only) ---------------- */
 const noteTitle = document.getElementById('noteTitle');
 const noteInput = document.getElementById('noteInput');
 const saveNoteBtn = document.getElementById('saveNote');
@@ -196,34 +175,28 @@ const notesList = document.getElementById('notesList');
 const noteStatus = document.getElementById('noteStatus');
 
 function renderNotesLocal(){
-  const arr = localLoad('notes');
-  notesList.innerHTML = '';
-  arr.forEach((n,i) => {
+  const arr = localLoad('notes'); notesList.innerHTML = '';
+  arr.forEach((n,i)=> {
     const el = document.createElement('div'); el.className='item';
-    const meta = document.createElement('div');
-    meta.innerHTML = `<strong>${escapeHtml(n.title || 'Untitled')}</strong><div class="meta">${escapeHtml(n.body)}</div>`;
+    const meta = document.createElement('div'); meta.innerHTML = `<strong>${escapeHtml(n.title || 'Untitled')}</strong><div class="meta">${escapeHtml(n.body)}</div>`;
     const actions = document.createElement('div'); actions.className='actions';
     const del = document.createElement('button'); del.className='delete-btn'; del.textContent='Delete';
-    del.addEventListener('click', ()=> { if(confirm('Delete note?')){ arr.splice(i,1); localSave('notes', arr); renderNotesLocal(); }});
-    actions.appendChild(del);
-    el.appendChild(meta); el.appendChild(actions); notesList.appendChild(el);
+    del.addEventListener('click', ()=>{ if(confirm('Delete note?')){ arr.splice(i,1); localSave('notes',arr); renderNotesLocal(); }});
+    actions.appendChild(del); el.appendChild(meta); el.appendChild(actions); notesList.appendChild(el);
   });
 }
 saveNoteBtn.addEventListener('click', ()=>{
   const arr = localLoad('notes'); arr.unshift({title: noteTitle.value.trim(), body: noteInput.value.trim(), created: new Date().toISOString()});
-  localSave('notes', arr); noteTitle.value=''; noteInput.value=''; noteStatus.textContent='Saved!'; setTimeout(()=>noteStatus.textContent='',1500); renderNotesLocal();
+  localSave('notes',arr); noteTitle.value=''; noteInput.value=''; noteStatus.textContent='Saved!'; setTimeout(()=>noteStatus.textContent='',1500); renderNotesLocal();
 });
-clearNotesBtn.addEventListener('click', ()=>{ if(confirm('Clear all local notes?')){ localSave('notes', []); renderNotesLocal(); }});
-
-function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+clearNotesBtn.addEventListener('click', ()=>{ if(confirm('Clear all notes?')){ localSave('notes',[]); renderNotesLocal(); }});
 
 /* ---------------- INIT ---------------- */
 async function init(){
-  try { await loadQuote(); } catch(e){}
+  await loadQuote();
   await renderSubjects();
   await renderSessions();
   renderNotesLocal();
-  // request notifications
   if('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
 }
 init();
