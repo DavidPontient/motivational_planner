@@ -1,53 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Motivational Planner - David Pontient</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Motivational Planner - David Pontient</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <img src="assets/logo.png" alt="Logo" class="logo">
-        <h1>Hey — this is David Pontient! Ready to feel motivated and plan ahead?</h1>
-        <img src="assets/banner.jpg" alt="Banner" class="banner">
-    </header>
+  <header>
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <h1>Hey — this is David Pontient! Ready to feel motivated and plan ahead?</h1>
+    <img src="assets/banner.jpg" alt="Banner" class="banner">
+  </header>
 
-    <section class="quote-section">
-        <h2>Daily Motivation ✨</h2>
-        <p id="quote">Loading quote...</p>
+  <main>
+    <section class="quote-section card">
+      <h2>Daily Motivation ✨</h2>
+      <p id="quote">Loading quote...</p>
+      <div class="controls">
         <button id="newQuote">New Quote</button>
-        <img src="assets/illustration.png" alt="Illustration" class="illustration">
+        <button id="copyQuote" class="ghost">Copy</button>
+      </div>
+      <img src="assets/illustration.png" alt="Illustration" class="illustration">
     </section>
 
-    <section class="planner">
-        <h2>Planner 🗓️</h2>
-        <input type="text" id="subjectInput" placeholder="Add a subject...">
-        <button id="addSubject">Add</button>
-        <div id="subjectList"></div>
+    <section class="layout">
+      <div class="left-column">
+        <section class="planner card">
+          <h2>Planner 🗓️</h2>
+          <div class="form-row">
+            <input type="text" id="subjectInput" placeholder="Add a subject...">
+            <input type="number" id="subjectHours" placeholder="hrs/day" min="0.5" step="0.5" style="width:90px">
+            <button id="addSubject">Add</button>
+          </div>
+          <div id="subjectList" class="list"></div>
+        </section>
+
+        <section class="sessions card">
+          <h2>Sessions ⏰</h2>
+          <div class="form-row">
+            <input type="date" id="sessionDate">
+            <input type="time" id="sessionStart">
+            <input type="time" id="sessionEnd">
+          </div>
+          <div class="form-row">
+            <input type="text" id="sessionInput" placeholder="Session description...">
+            <button id="addSession">Add</button>
+          </div>
+          <div id="sessionList" class="list"></div>
+        </section>
+      </div>
+
+      <aside class="right-column">
+        <section class="notes card">
+          <h2>Notes 📝</h2>
+          <input type="text" id="noteTitle" placeholder="Title (optional)">
+          <textarea id="noteInput" rows="6" placeholder="Write your thoughts here..."></textarea>
+          <div class="form-row">
+            <button id="saveNote">Save Note</button>
+            <button id="clearNotes" class="ghost">Clear All</button>
+          </div>
+          <div id="notesList" class="list"></div>
+        </section>
+      </aside>
     </section>
+  </main>
 
-    <section class="sessions">
-        <h2>Sessions ⏰</h2>
-        <input type="date" id="sessionDate">
-        <input type="time" id="sessionStart">
-        <input type="time" id="sessionEnd">
-        <input type="text" id="sessionInput" placeholder="Session description...">
-        <button id="addSession">Add</button>
-        <div id="sessionList"></div>
-    </section>
+  <footer>
+    <p>Created by David Pontient ❤️ | Stay focused & inspired!</p>
+  </footer>
 
-    <section class="notes">
-        <h2>Notes 📝</h2>
-        <textarea id="noteInput" placeholder="Write your thoughts here..."></textarea>
-        <button id="saveNote">Save</button>
-        <p id="noteStatus"></p>
-    </section>
-
-    <footer>
-        <p>Created by David Pontient ❤️ | Stay focused & inspired!</p>
-    </footer>
-
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
