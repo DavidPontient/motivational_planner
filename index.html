@@ -1,75 +1,50 @@
-{"id":"90125","variant":"standard","subject":""}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Motivational Planner</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
-    }
-    h1 {
-      color: #333;
-    }
-    #quotes, #planner {
-      margin-bottom: 30px;
-    }
-    .quote, .task {
-      background: #fff;
-      padding: 10px 15px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      max-width: 300px;
-    }
-    input, button {
-      margin-bottom: 10px;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #45a049;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Motivational Planner - David Pontient</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Motivational Planner</h1>
+<header>
+<img src="assets/image1.png" alt="Motivation 1" class="logo">
+<h1>Heyyo this is David Pontient! Ready to feel motivated and plan ahead?</h1>
+</header>
 
-  <!-- Quotes Section -->
-  <h2>Daily Quotes</h2>
-  <div id="quotes">
-    <!-- Quotes will be dynamically loaded here -->
-  </div>
+<section class="quote-section">
+<h2>Daily Motivation ✨</h2>
+<p id="quote">Loading quote...</p>
+<button id="newQuote">New Quote</button>
+</section>
 
-  <!-- Planner Section -->
-  <h2>Planner</h2>
-  <div id="planner">
-    <!-- Planner tasks will be dynamically loaded here -->
-  </div>
+<section class="planner">
+<h2>Planner 🗓️</h2>
+<input type="text" id="subjectInput" placeholder="Add a subject...">
+<button id="addSubject">Add</button>
+<ul id="subjectList"></ul>
+</section>
 
-  <!-- Add Task Form -->
-  <h3>Add a New Task</h3>
-  <form id="addTaskForm">
-    <input type="text" id="taskInput" placeholder="Task description" required>
-    <input type="time" id="timeInput" required>
-    <button type="submit">Add Task</button>
-  </form>
+<section class="sessions">
+<h2>Sessions ⏰</h2>
+<input type="text" id="sessionInput" placeholder="Enter session reminder...">
+<input type="date" id="sessionDate">
+<button id="addSession">Add</button>
+<ul id="sessionList"></ul>
+</section>
 
-  <!-- Link JS -->
-  <script src="app.js"></script>
+<section class="notes">
+<h2>Notes 📝</h2>
+<textarea id="noteInput" placeholder="Write your thoughts here..."></textarea>
+<button id="saveNote">Save</button>
+<ul id="notesList"></ul>
+</section>
+
+<footer>
+<p>Created by Me lol | Stay focused & inspired!</p>
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>
+
