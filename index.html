@@ -1,17 +1,75 @@
+{"id":"90125","variant":"standard","subject":""}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Motivational Planner</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    #quotes, #planner {
+      margin-bottom: 30px;
+    }
+    .quote, .task {
+      background: #fff;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+    }
+    input, button {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
 </head>
 <body>
-
   <h1>Motivational Planner</h1>
-  <div id="quote"></div>
-  <button id="newQuoteBtn">Get New Quote</button>
 
+  <!-- Quotes Section -->
+  <h2>Daily Quotes</h2>
+  <div id="quotes">
+    <!-- Quotes will be dynamically loaded here -->
+  </div>
+
+  <!-- Planner Section -->
+  <h2>Planner</h2>
+  <div id="planner">
+    <!-- Planner tasks will be dynamically loaded here -->
+  </div>
+
+  <!-- Add Task Form -->
+  <h3>Add a New Task</h3>
+  <form id="addTaskForm">
+    <input type="text" id="taskInput" placeholder="Task description" required>
+    <input type="time" id="timeInput" required>
+    <button type="submit">Add Task</button>
+  </form>
+
+  <!-- Link JS -->
   <script src="app.js"></script>
 </body>
 </html>
