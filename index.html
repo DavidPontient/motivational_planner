@@ -1,73 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Motivational Todo</title>
-
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-  <!-- Fonts + Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Quattrocento:wght@700&display=swap" rel="stylesheet">
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="Asset/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Timer App</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="text-center py-5">
-    <h1>Motivational Todo List</h1>
-    <p class="lead">Tackle tasks, run timers, earn points.</p>
-  </header>
-
-  <!-- Main -->
-  <div class="container main">
-    <div class="row">
-
-      <!-- Left Panel: Todo List -->
-      <div class="col-lg-6 mb-4">
-        <div class="card todo-card">
-          <div class="card-body">
-            <h3 class="card-title">Todos</h3>
-            <form id="todo-form" class="mb-3">
-              <input type="text" id="todo-text" class="form-control" placeholder="Add a task...">
-            </form>
-            <ul id="todo-list" class="list-group"></ul>
-            <div class="mt-3">
-              <span>Completed: <strong id="points">0</strong></span> |
-              <span>Current Todos: <strong id="todo-count">0</strong></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Panel: Motivation -->
-      <div class="col-lg-6 mb-4">
-        <div class="card quotes-card">
-          <img id="motivationImage" class="img-fluid rounded-top" alt="Motivation">
-          <div class="card-body text-center">
-            <h3>Motivation</h3>
-            <p id="quote">Click the button to get a motivational quote.</p>
-            <button id="motivationButton" class="btn btn-danger btn-lg mt-2">Get Quote</button>
-          </div>
-        </div>
-      </div>
-
+    <div class="container welcome-page">
+        <h1 class="app-title">Task Timer App</h1>
+        <p class="app-subtitle">Boost productivity, track tasks, and stay motivated!</p>
+        <a href="landing.html" class="btn btn-primary btn-lg">Enter App</a>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="text-center py-3">
-    Powered by Pixelbay + Quote Garden | 
-    <a href="https://ak0501.github.io/Project-Uno/" class="text-danger">Source Code</a>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="Asset/script.js"></script>
 </body>
 </html>
