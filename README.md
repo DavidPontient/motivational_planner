@@ -1,5 +1,5 @@
 # 🌟 Motivational Planner  
-A productivity web app designed to help you organize tasks, stay motivated with quotes, and track your progress — all wrapped inside a beautiful UI with clocks, timers, and inspirational messages.
+A productivity web app designed to help you organize tasks, stay motivated with quotes, and track your progress, all wrapped inside a beautiful UI with clocks, timers, and inspirational messages.
 
 Live Website: **https://motivational-planner.onrender.com/main.html**
 
