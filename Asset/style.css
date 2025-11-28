@@ -4,81 +4,76 @@
   box-sizing: border-box;
 }
 
-.content {
+body {
   font-family: 'Quattrocento', serif;
-  font-size: 16px;
-  text-align: center;
-  background-color: #8EC4F6;
-  width: 95%;
-  margin: auto;
+  margin: 0;
+  background: linear-gradient(135deg, #ff4d4d, #111);
+  color: #fff;
 }
 
-
+.content {
+  font-size: 16px;
+  text-align: center;
+  background-color: #1a1a1a;
+  width: 95%;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
 
 input {
   height: 50px;
   width: 100%;
-  padding: 6px;
+  padding: 8px 12px;
   margin-top: 10px;
-  font-size: 32px;
+  font-size: 20px;
+  border-radius: 8px;
   border: none;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
-  background-color: white;
+  margin-top: 20px;
 }
 
 li {
+  position: relative;
   height: 50px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #1173D0;
-  color: white;
-  font-size: 24px;
-  line-height: 1.5;
-}
-
-li:before {
-  content: "\200B";
-  position: absolute;
-}
-
-li::after {
-  content: " ";
-  display: block;
-  clear: both;
+  margin: 5px 0;
+  padding: 0 10px;
+  background-color: #ff4d4d;
+  color: #fff;
+  font-size: 20px;
+  line-height: 50px;
+  border-radius: 6px;
 }
 
 li button {
   float: right;
   border: none;
-  height: 40px;
+  height: 35px;
+  width: 80px;
   cursor: pointer;
-  background-color: midnightblue;
-  color: white;
-  font-size: 1em;
+  background-color: #111;
+  color: #fff;
+  border-radius: 6px;
+  transition: 0.3s;
 }
 
 li button:hover {
-  background-color: green;
-  
+  background-color: #e60000;
 }
 
 .img-fluid,
 .quotesCard,
 .timerCard {
   width: 95%;
-  margin: auto;
+  margin: 20px auto;
+  border-radius: 10px;
 }
-
-
 
 .todos {
   width: 100%;
-  margin: 0 auto;
-  margin-top: 40px;
-  
+  margin: 40px auto;
 }
