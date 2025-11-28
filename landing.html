@@ -1,107 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- jQuery + Flip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="landing.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff4d4d, #111);
+            font-family: 'Roboto Mono', monospace;
+        }
 
+        #card-1 {
+            perspective: 1500px;
+            position: relative;
+        }
+
+        .flip-card .front,
+        .flip-card .back {
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+            border-radius: 10px;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card.flipped .front {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card.flipped .back {
+            transform: rotateY(0deg);
+        }
+
+        blockquote {
+            font-size: 1.3rem;
+            color: #fff;
+            border-left: 4px solid #00ffcc;
+            padding-left: 1rem;
+        }
+
+        #canvas {
+            border-radius: 50%;
+        }
+
+        .timerCard {
+            background-color: #1a1a1a;
+            color: #00ffcc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .quotesCard {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .quotesCard img {
+            max-height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .btn-primary,
+        .btn-success {
+            font-weight: 600;
+        }
+
+        #howto ul {
+            padding-left: 1rem;
+            color: #fff;
+        }
+
+        #howto li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container container-sm" style="padding-top:100px">
-        <div id="card-1">
-            <!-----------------------------------------Front Content of the card------------------------------------------------->
-            <div class="front">
-                <div class="container-fluid clock-quote">
-                    <!-- <a href="index.html"> -->
-                    <div class="info">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-------------------------CLOCK---------------------------------------------------------->
-                                        <div class="clock">
-                                            <canvas id="canvas" width="400" height="400"
-                                                style="background-color:rgb(19, 180, 185)">
-                                            </canvas>
-                                        </div>
-                                        <!-------------------------CLOCK---------------------------------------------------------->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-------------------------QUOTE---------------------------------------------------------->
-                            <div class="col-md-6">
-                                <blockquote class="wp-block-quote">
-                                    <p>You don't have to see the whole staircase, just take the first step.</p>
-                                    <cite>Martin
-                                        Luther King Jr.</cite>
-                                </blockquote>
-                            </div>
-                            <!-------------------------QUOTE---------------------------------------------------------->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-----------------------------------------Front Content of the card------------------------------------------------->
-            <!-----------------------------------------Back Content of the card------------------------------------------------->
-            <div class="back">
-                <div class="container-fluid clock-quote">
-                    <div class="info">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-------------------------ENTER TASK BUTTON-------------------------------------------------->
-                                        <div class="enterTask" style="height:405px;">
-                                            <a href="main.html" class="btn btn-primary btn-lg"><span class=""></span>
-                                                Enter Main App</a>
-                                        </div>
-                                        <!-------------------------ENTER TASK---------------------------------------------------------->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-------------------------LIST ITEMS----------------------------------------------------------------------->
-                            <div class=" col-md-6" style="text-align: justify; padding-top: 80px;">
-                                <h3 style="text-align: center;" id="howto">How To</h3>
-                                <li>Enter your task </li>
-                                <li>Get extra motivated with inspirational quotes</li>
-                                <li>Use inbuilt timer to set time for your tasks</li>
-                                <li>Track your compleated tasks</li>
-                                <li>Feel good about your accomplishment</li>
-                                <li>Repetition is the only key to success</li>
-                            </div>
+    <div class="container" style="padding-top: 80px;">
+        <div id="card-1" class="flip-card">
 
-                            <!-------------------------LIST ITEMS---------------------------------------------------------->
+            <!-- FRONT -->
+            <div class="front p-4 text-center">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center">
+                        <!-- Clock -->
+                        <canvas id="canvas" width="300" height="300"
+                            style="background-color: rgb(19,180,185);"></canvas>
+
+                        <!-- Timer Card -->
+                        <div class="timerCard text-center">
+                            <h5>Countdown Timer</h5>
+                            <h1 id="time">00:00</h1>
+                            <p>Complete your tasks before the timer ends!</p>
+                            <button id="timerButton" class="btn btn-success btn-lg">Start Timer</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- Quote Card -->
+                        <div class="quotesCard card">
+                            <img id="motivationImage" alt="Motivational Image" class="img-fluid">
+                            <div class="card-body">
+                                <h5 class="card-title">Motivational Quote</h5>
+                                <p id="quote">Click the button for motivation! Quotes by Quote Garden</p>
+                                <button id="motivationButton" class="btn btn-primary btn-lg">Get Motivated</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-----------------------------------------Back Content of the card------------------------------------------------->
+
+            <!-- BACK -->
+            <div class="back p-4 text-white">
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
+                        <!-- Enter Main App Button -->
+                        <a href="main.html" class="btn btn-primary btn-lg">Enter Main App</a>
+                    </div>
+
+                    <div class="col-md-6 mt-3 mt-md-0">
+                        <h3 class="text-center" id="howto">How To</h3>
+                        <ul>
+                            <li>Enter your tasks</li>
+                            <li>Get motivated with inspirational quotes</li>
+                            <li>Use the built-in timer to track your tasks</li>
+                            <li>Track completed tasks</li>
+                            <li>Feel good about your accomplishments</li>
+                            <li>Consistency is the key to success</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script>
+        // ------------------- Clock -------------------
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var radius = canvas.height / 2;
+        ctx.translate(radius, radius);
+        radius = radius * 0.90;
+        setInterval(drawClock, 1000);
 
-    <script src="landing.js"></script>
+        function drawClock() {
+            drawFace(ctx, radius);
+            drawNumbers(ctx, radius);
+            drawTime(ctx, radius);
+        }
 
+        function drawFace(ctx, radius) {
+            var grad;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+            grad.addColorStop(0, '#333');
+            grad.addColorStop(0.5, 'white');
+            grad.addColorStop(1, '#333');
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = radius * 0.1;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+        }
 
-
-</body>
-
-</html>
+        function drawNumbers(ctx, radius) {
+            var ang;
+            var num;
+            ctx.font = radius * 0.15 + "px arial";
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
