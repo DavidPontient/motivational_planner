@@ -1,84 +1,62 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.content {
+/* General Styles */
+body {
+  background: linear-gradient(90deg, #ff0000 50%, #000000 50%);
+  color: #fff;
   font-family: 'Quattrocento', serif;
-  font-size: 16px;
-  text-align: center;
-  background-color: #8EC4F6;
-  width: 95%;
-  margin: auto;
-}
-
-
-
-input {
-  height: 50px;
-  width: 100%;
-  padding: 6px;
-  margin-top: 10px;
-  font-size: 32px;
-  border: none;
-}
-
-ul {
-  list-style-type: none;
+  margin: 0;
   padding: 0;
-  background-color: white;
 }
 
-li {
-  height: 50px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #1173D0;
-  color: white;
-  font-size: 24px;
-  line-height: 1.5;
+header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-li:before {
-  content: "\200B";
-  position: absolute;
+.main {
+  padding: 20px;
 }
 
-li::after {
-  content: " ";
-  display: block;
-  clear: both;
+.jumbotron {
+  background-color: #111;
+  color: #ff0000;
+  border-radius: 15px;
 }
 
-li button {
-  float: right;
-  border: none;
-  height: 40px;
-  cursor: pointer;
-  background-color: midnightblue;
-  color: white;
-  font-size: 1em;
+/* Todo List */
+#todo-list {
+  margin-top: 10px;
 }
 
-li button:hover {
-  background-color: green;
-  
+.list-group-item {
+  background-color: #000;
+  color: #ff0000;
+  border: 1px solid #ff0000;
 }
 
-.img-fluid,
-.quotesCard,
-.timerCard {
-  width: 95%;
-  margin: auto;
+/* Timer Card */
+.timerCard, .quotesCard {
+  background-color: #000;
+  color: #ff0000;
+  margin-bottom: 20px;
+  border: 1px solid #ff0000;
 }
 
+/* Buttons */
+.btn-danger {
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
 
+.btn-danger:hover {
+  background-color: #cc0000;
+  border-color: #cc0000;
+}
 
-.todos {
-  width: 100%;
-  margin: 0 auto;
-  margin-top: 40px;
-  
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #111;
+  color: #ff0000;
 }
