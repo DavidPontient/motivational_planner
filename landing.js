@@ -1,3 +1,4 @@
+// ---------------- CLOCK -----------------
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
@@ -12,38 +13,37 @@ function drawClock() {
 }
 
 function drawFace(ctx, radius) {
-    var grad;
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
     ctx.fillStyle = 'white';
     ctx.fill();
-    grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+
+    var grad = ctx.createRadialGradient(0, 0, radius*0.95, 0, 0, radius*1.05);
     grad.addColorStop(0, '#333');
     grad.addColorStop(0.5, 'white');
     grad.addColorStop(1, '#333');
     ctx.strokeStyle = grad;
-    ctx.lineWidth = radius * 0.1;
+    ctx.lineWidth = radius*0.1;
     ctx.stroke();
+
     ctx.beginPath();
-    ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+    ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
     ctx.fillStyle = '#333';
     ctx.fill();
 }
 
 function drawNumbers(ctx, radius) {
-    var ang;
-    var num;
-    ctx.font = radius * 0.15 + "px arial";
+    ctx.font = radius*0.15 + "px arial";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    for (num = 1; num < 13; num++) {
-        ang = num * Math.PI / 6;
+    for(var num=1; num<13; num++){
+        var ang = num * Math.PI / 6;
         ctx.rotate(ang);
-        ctx.translate(0, -radius * 0.85);
+        ctx.translate(0, -radius*0.85);
         ctx.rotate(-ang);
         ctx.fillText(num.toString(), 0, 0);
         ctx.rotate(ang);
-        ctx.translate(0, radius * 0.85);
+        ctx.translate(0, radius*0.85);
         ctx.rotate(-ang);
     }
 }
@@ -53,18 +53,16 @@ function drawTime(ctx, radius) {
     var hour = now.getHours();
     var minute = now.getMinutes();
     var second = now.getSeconds();
-    //hour
+
     hour = hour % 12;
-    hour = (hour * Math.PI / 6) +
-        (minute * Math.PI / (6 * 60)) +
-        (second * Math.PI / (360 * 60));
-    drawHand(ctx, hour, radius * 0.5, radius * 0.07);
-    //minute
-    minute = (minute * Math.PI / 30) + (second * Math.PI / (30 * 60));
-    drawHand(ctx, minute, radius * 0.8, radius * 0.07);
-    // second
-    second = (second * Math.PI / 30);
-    drawHand(ctx, second, radius * 0.9, radius * 0.02);
+    hour = (hour * Math.PI / 6) + (minute * Math.PI/(6*60)) + (second*Math.PI/(360*60));
+    drawHand(ctx, hour, radius*0.5, radius*0.07);
+
+    minute = (minute*Math.PI/30) + (second*Math.PI/(30*60));
+    drawHand(ctx, minute, radius*0.8, radius*0.07);
+
+    second = (second*Math.PI/30);
+    drawHand(ctx, second, radius*0.9, radius*0.02);
 }
 
 function drawHand(ctx, pos, length, width) {
@@ -78,16 +76,11 @@ function drawHand(ctx, pos, length, width) {
     ctx.rotate(-pos);
 }
 
-// --------------------carD flip function----------------------
-$(function () {
+// ---------------- CARD FLIP -----------------
+$(function() {
     $("#card-1").flip({
-        axis: "Y", // y or x
-        reverse: false, // true and false
-        trigger: "click", // click
-        speed: '200',
-        front: $('.front'),
-        back: $('.back'),
-        autoSize: false,
+        axis: "Y",
+        trigger: "click",
+        speed: 200
     });
-
 });
