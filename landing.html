@@ -1,44 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="landing.css">
+
 </head>
+
 <body>
-
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div id="card-1" class="flip-card">
-
-        <!-- FRONT -->
-        <div class="front p-4">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center">
-                    <canvas id="canvas" width="300" height="300"></canvas>
-                    <button id="getQuote" class="btn btn-outline-light mt-3">Get Quote</button>
-                </div>
-                <div class="col-md-6">
-                    <blockquote id="quoteBlock">
-                        <p>You don't have to see the whole staircase, just take the first step.</p>
-                        <cite>Martin Luther King Jr.</cite>
-                    </blockquote>
+    <div class="container container-sm" style="padding-top:100px">
+        <div id="card-1">
+            <!-----------------------------------------Front Content of the card------------------------------------------------->
+            <div class="front">
+                <div class="container-fluid clock-quote">
+                    <!-- <a href="index.html"> -->
+                    <div class="info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-------------------------CLOCK---------------------------------------------------------->
+                                        <div class="clock">
+                                            <canvas id="canvas" width="400" height="400"
+                                                style="background-color:rgb(19, 180, 185)">
+                                            </canvas>
+                                        </div>
+                                        <!-------------------------CLOCK---------------------------------------------------------->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-------------------------QUOTE---------------------------------------------------------->
+                            <div class="col-md-6">
+                                <blockquote class="wp-block-quote">
+                                    <p>You don't have to see the whole staircase, just take the first step.</p>
+                                    <cite>Martin
+                                        Luther King Jr.</cite>
+                                </blockquote>
+                            </div>
+                            <!-------------------------QUOTE---------------------------------------------------------->
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-----------------------------------------Front Content of the card------------------------------------------------->
+            <!-----------------------------------------Back Content of the card------------------------------------------------->
+            <div class="back">
+                <div class="container-fluid clock-quote">
+                    <div class="info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-------------------------ENTER TASK BUTTON-------------------------------------------------->
+                                        <div class="enterTask" style="height:405px;">
+                                            <a href="main.html" class="btn btn-primary btn-lg"><span class=""></span>
+                                                Enter Main App</a>
+                                        </div>
+                                        <!-------------------------ENTER TASK---------------------------------------------------------->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-------------------------LIST ITEMS----------------------------------------------------------------------->
+                            <div class=" col-md-6" style="text-align: justify; padding-top: 80px;">
+                                <h3 style="text-align: center;" id="howto">How To</h3>
+                                <li>Enter your task </li>
+                                <li>Get extra motivated with inspirational quotes</li>
+                                <li>Use inbuilt timer to set time for your tasks</li>
+                                <li>Track your compleated tasks</li>
+                                <li>Feel good about your accomplishment</li>
+                                <li>Repetition is the only key to success</li>
+                            </div>
 
-        <!-- BACK -->
-        <div class="back p-4 text-white">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-center align-items-center">
-                    <a href="main.html" class="btn btn-danger btn-lg">Enter Main App</a>
+                            <!-------------------------LIST ITEMS---------------------------------------------------------->
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-----------------------------------------Back Content of the card------------------------------------------------->
         </div>
-
     </div>
-</div>
 
-<script src="landing.js"></script>
+
+    <script src="landing.js"></script>
+
+
+
 </body>
+
 </html>
