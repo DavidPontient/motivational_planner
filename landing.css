@@ -1,57 +1,68 @@
-/* Background Split */
 body {
-    background: linear-gradient(90deg, #ff4d4d 50%, #000 50%);
     margin: 0;
     font-family: 'Roboto Mono', monospace;
-}
-
-/* Main Card Container */
-.info {
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 0 8px #b0b3b7;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    background: linear-gradient(135deg, #ff4d4d 50%, #111 50%);
+    color: #fff;
 }
 
 /* Flip Card */
-.front, .back {
-    position: relative;
-    width: 100%;
-    height: 100%;
+.flip-card {
+    width: 90%;
+    max-width: 900px;
+    perspective: 1000px;
 }
 
-/* Canvas Clock */
+.front, .back {
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.6s;
+    background-color: rgba(0,0,0,0.85);
+}
+
+/* Clock Canvas */
 #canvas {
     border-radius: 50%;
+    background-color: #111;
+}
+
+/* Button for Quote */
+#getQuote {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    transition: 0.3s;
+}
+#getQuote:hover {
+    background: #ff4d4d;
+    border-color: #ff4d4d;
+    color: #fff;
 }
 
 /* Quote Styling */
 blockquote {
-    position: relative;
     text-align: center;
     padding: 1.5em;
-    border: none;
     margin: 20px auto;
-    max-width: 600px;
     font-size: 22px;
     font-weight: 600;
+    position: relative;
 }
 
 blockquote:after {
     content: "";
-    width: 2px;
+    width: 3px;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    background: linear-gradient(to bottom, #ff4d4d 0%, #ff4d4d 60%, transparent 100%);
+    background: linear-gradient(to bottom, #ff4d4d 0%, #ff4d4d 70%, transparent 100%);
 }
 
 blockquote:before {
     content: "\f10d";
     font-family: "FontAwesome";
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 0.8em;
     color: #ff4d4d;
 }
@@ -64,16 +75,6 @@ blockquote cite {
     font-weight: 700;
 }
 
-/* Button */
-.btn-primary {
-    background-color: #ff4d4d;
-    border-color: #ff4d4d;
-}
-.btn-primary:hover {
-    background-color: #e60000;
-    border-color: #e60000;
-}
-
 /* How To List */
 ul {
     font-size: 16px;
@@ -81,5 +82,15 @@ ul {
 }
 ul li {
     margin-bottom: 0.5em;
+}
+
+/* Enter App Button */
+.btn-danger {
+    background-color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+.btn-danger:hover {
+    background-color: #e60000;
+    border-color: #e60000;
 }
 
