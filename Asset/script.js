@@ -1,4 +1,4 @@
-// Todo List Functionality
+// -------------------- Todo List with Individual Timers --------------------
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-text");
 const todoList = document.getElementById("todo-list");
@@ -7,80 +7,98 @@ const todoCountDisplay = document.getElementById("todo-count");
 
 let points = 0;
 
-todoForm.addEventListener("submit", function(e) {
+// Add Todo
+todoForm.addEventListener("submit", e => {
   e.preventDefault();
-  const todoText = todoInput.value.trim();
-  if (todoText === "") return;
+  const text = todoInput.value.trim();
+  if (!text) return;
 
   const li = document.createElement("li");
-  li.className = "list-group-item d-flex justify-content-between align-items-center";
-  li.textContent = todoText;
+  li.className = "list-group-item";
 
-  const completeButton = document.createElement("button");
-  completeButton.className = "btn btn-sm btn-danger";
-  completeButton.innerHTML = '<i class="fa fa-check"></i>';
-  completeButton.onclick = () => {
+  // Timer per todo (default 5 minutes)
+  let timer = null;
+  let timeLeft = 300;
+
+  const timerDisplay = document.createElement("span");
+  timerDisplay.textContent = "05:00";
+  timerDisplay.style.marginRight = "10px";
+
+  const startBtn = document.createElement("button");
+  startBtn.className = "btn btn-sm btn-danger";
+  startBtn.textContent = "Start";
+
+  const completeBtn = document.createElement("button");
+  completeBtn.className = "btn btn-sm btn-danger";
+  completeBtn.innerHTML = '<i class="fa fa-check"></i>';
+
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "todo-buttons";
+  buttonContainer.appendChild(timerDisplay);
+  buttonContainer.appendChild(startBtn);
+  buttonContainer.appendChild(completeBtn);
+
+  li.textContent = text + " ";
+  li.appendChild(buttonContainer);
+  todoList.appendChild(li);
+
+  // Timer Function
+  startBtn.onclick = () => {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        alert(`Task "${text}" timer finished! +5 points`);
+        points += 5;
+        updatePoints();
+        timerDisplay.textContent = "00:00";
+      } else {
+        timeLeft--;
+        const mins = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+        const secs = String(timeLeft % 60).padStart(2, "0");
+        timerDisplay.textContent = `${mins}:${secs}`;
+      }
+    }, 1000);
+  };
+
+  // Complete button
+  completeBtn.onclick = () => {
+    clearInterval(timer);
     li.remove();
     points++;
     updatePoints();
+    updateTodoCount();
   };
 
-  li.appendChild(completeButton);
-  todoList.appendChild(li);
   todoInput.value = "";
   updateTodoCount();
 });
 
+// Update Points
 function updatePoints() {
   pointsDisplay.textContent = points;
 }
 
+// Update Todo Count
 function updateTodoCount() {
   todoCountDisplay.textContent = todoList.children.length;
 }
 
-// Timer Functionality
-let timer;
-let timeLeft = 300; // 5 minutes
-
-function startTimer() {
-  clearInterval(timer);
-  timer = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      alert("Time's up!");
-      return;
-    }
-    timeLeft--;
-    displayTime();
-  }, 1000);
-}
-
-function displayTime() {
-  const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
-  const seconds = (timeLeft % 60).toString().padStart(2, "0");
-  document.getElementById("time").textContent = `${minutes}:${seconds}`;
-}
-
-// Motivation Button
+// -------------------- Motivation --------------------
 const motivationButton = document.getElementById("motivationButton");
 const quoteText = document.getElementById("quote");
 const motivationImage = document.getElementById("motivationImage");
 
 motivationButton.addEventListener("click", async () => {
   try {
-    // Fetch random quote
     const quoteRes = await fetch("https://quote-garden.onrender.com/api/v3/quotes/random");
     const quoteData = await quoteRes.json();
     quoteText.textContent = quoteData.data[0].quoteText;
 
-    // Fetch random image
     const imgRes = await fetch("https://pixabay.com/api/?key=YOUR_PIXABAY_API_KEY&q=motivation&image_type=photo&orientation=horizontal");
     const imgData = await imgRes.json();
-    if (imgData.hits.length > 0) {
-      motivationImage.src = imgData.hits[0].webformatURL;
-    }
-  } catch (error) {
+    if (imgData.hits.length > 0) motivationImage.src = imgData.hits[0].webformatURL;
+  } catch (err) {
     quoteText.textContent = "Stay motivated!";
   }
 });
